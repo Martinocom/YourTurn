@@ -6,6 +6,60 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@android:color/black</item>
     </style>
+
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+    </style>
+
+    <!-- Base application theme. -->
+    <style name="AppThemeNoAction" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="TextViewBig">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:layout_marginBottom">6dp</item>
+    </style>
+
+    <style name="EditTextRounded">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:paddingLeft">13dp</item>
+        <item name="android:paddingRight">13dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:background">@drawable/rounded_edit_text</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:textColorHint">@color/colorWhiteHint</item>
+    </style>
+
+    <style name="ClassicButton">
+        <item name="android:background">@drawable/classic_button</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
+    <style name="ClassicButtonAccent" parent="ClassicButton">
+        <item name="android:background">@drawable/classic_button_accent</item>
+    </style>
+
+    <style name="ClassicButtonRed" parent="ClassicButton">
+        <item name="android:background">@drawable/classic_button_red</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>
