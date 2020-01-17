@@ -17,4 +17,34 @@
 
     <color name="colorGrayDisabled">#CECECE</color>
     <color name="colorDimmer">#99000000</color>
+    <color name="colorBlackSemiTransparent">#B2000000</color>
+
+    <!-- Colors for Activity Picker. If not used, use the #33XXXXXX variant -->
+    <color name="colorActivityBlueTitle">@color/colorPrimary</color>
+    <color name="colorActivityBlue">#33325D79</color>
+
+    <color name="colorActivityGreenTitle">#4EAA5B</color>
+    <color name="colorActivityGreen">#334EAA5B</color>
+
+    <color name="colorActivityMarineTitle">#3C8375</color>
+    <color name="colorActivityMarine">#333C8375</color>
+
+    <color name="colorActivityPurpleTitle">#7F51B1</color>
+    <color name="colorActivityPurple">#337F51B1</color>
+
+    <color name="colorActivityYellowTitle">#EBEB37</color>
+    <color name="colorActivityYellow">#33EBEB37</color>
+
+    <color name="colorActivityOrangeTitle">#CE5C2F</color>
+    <color name="colorActivityOrange">#33CE5C2F</color>
+
+    <color name="colorActivityRedTitle">#CA3737</color>
+    <color name="colorActivityRed">#33CA3737</color>
+
+    <color name="colorActivityGrayTitle">#575757</color>
+    <color name="colorActivityGray">#33575757</color>
+
+    <color name="colorActivityAzureTitle">#3CAF9B</color>
+    <color name="colorActivityAzure">#333CAF9B</color>
+
 </resources>

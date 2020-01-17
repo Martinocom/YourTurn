@@ -14,6 +14,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import it.pabich.yourturn.R
+import it.pabich.yourturn.db.DataBase
+import it.pabich.yourturn.db.Errors
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
@@ -78,7 +80,11 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     val user = auth.currentUser
-                    updateUI(user)
+
+                    DataBase.checkIfUserIsRegistered(user, { isRegistered ->
+                        if (isRegistered) updateUI(user)
+                        else DataBase.registerUser(user, { updateUI(user)}, {error, s -> updateUI(error, s) })
+                    }, {error, s ->  updateUI(error, s)})
                 } else {
                     // If sign in fails, display a message to the user.
                     Snackbar.make(activity_main_rtl, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
@@ -95,6 +101,10 @@ class LoginActivity : AppCompatActivity() {
         }
 
         stopLoading()
+    }
+
+    private fun updateUI(error: Errors, errorMessage: String?) {
+        Snackbar.make(activity_main_rtl, "Authentication Failed. ${error.name}: $errorMessage", Snackbar.LENGTH_SHORT).show()
     }
 
     private fun startLoading() {

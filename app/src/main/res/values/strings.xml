@@ -21,4 +21,15 @@
     <string name="settings">Settings</string>
     <string name="menu_manage">Manage</string>
     <string name="logo">Logo of the app</string>
+    <string name="add_new_activity">Add new activity</string>
+    <string name="change_group">Change group</string>
+    <string name="next_turn">Next turn:</string>
+    <string name="last_done_by">last done by</string>
+    <string name="last_done_by_date">in date</string>
+    <string name="nobody_assigned_to_activity"><![CDATA[<empty list>]]></string>
+    <string name="more_than_one_user_found">More users…</string>
+    <string name="loading">Loading…</string>
+    <string name="no_data"><![CDATA[<no data>]]></string>
+    <string name="image_of_last_activity">Image of last activity</string>
+    <string name="camera_icon">Camera icon</string>
 </resources>
