@@ -1,6 +1,36 @@
 package it.pabich.yourturn.model
 
+import io.opencensus.common.Timestamp
 
+class MyActivity {
+    var name: String = ""
+    var partOfGroupID: String = ""
+    var partOfGroupName: String = ""
+    var enchargedUsers: List<Map<EnchargedUserKeys, Any>> = emptyList()
+    var checks: List<Map<ChecksKeys, Any>> = emptyList()
+    var nextUserDisplayName: String = ""
+    var nextUserID: String = ""
+    var previousUserTimestamp: Timestamp = Timestamp.create(0, 0)
+    var previousUserDisplayName: String = ""
+    var previousUserID: String = ""
+
+    enum class EnchargedUserKeys(name: String) {
+        USER_ID("userID"),
+        DISPLAY_NAME("displayName")
+    }
+
+    enum class ChecksKeys(name: String) {
+        USER_ID("userID"),
+        USER_DISPLAY_NAME("userDisplayName"),
+        SIGNED_BY_ID("signedBy"),
+        SIGNED_BY_DISPLAY_NAME("signedByDisplayName"),
+        DATE_OF_CREATION("dateOfCreation"),
+        DATE_OF_EFFECTIVE_CHECK("dateOfEffectiveCheck"),
+        PHOTO("photo")
+    }
+}
+
+/*
 class MyActivity(val title: String, val activityChecks: List<ActivityCheck>, val enchargedUsers: List<EnchargedUser>) {
     val lastCheck: ActivityCheck? = activityChecks.maxBy { it.date }
     private var _cyclesCount = 1
@@ -75,4 +105,4 @@ class MyActivity(val title: String, val activityChecks: List<ActivityCheck>, val
     enum class NextEnchargedUserReturnType {
         USER_FOUND, LIST_EMPTY, MORE_USERS_FOUND
     }
-}
+}*/

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    tools:context=".fragments.mainPages.HomeFragment">
+
+    <ScrollView
+        android:clipToPadding="false"
+        android:visibility="gone"
+        android:id="@+id/fragment_home_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:clipToPadding="false"
+            android:animateLayoutChanges="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <it.pabich.yourturn.widgets.HomeContainerWidget
+                android:id="@+id/fragment_home_container_1"
+                android:layout_marginBottom="32dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <it.pabich.yourturn.widgets.HomeContainerWidget
+                android:id="@+id/fragment_home_container_2"
+                android:layout_marginBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:visibility="visible"
+        android:id="@+id/fragment_home_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/activity_login_prg_loading"
+            android:layout_centerInParent="true"
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
+
+        <TextView
+            android:layout_marginTop="5dp"
+            android:textColor="@color/colorPrimaryText"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/activity_login_prg_loading"
+            android:text="@string/loading_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+</RelativeLayout>

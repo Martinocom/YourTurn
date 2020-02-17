@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     android:clipToPadding="false"
-    android:id="@+id/activity_main_rtl"
+    android:id="@+id/activity_login_rtl"
     tools:context=".activities.LoginActivity">
 
     <LinearLayout
@@ -31,7 +30,7 @@
 
         <EditText
             android:inputType="textEmailAddress"
-            android:id="@+id/activity_main_edt_mail"
+            android:id="@+id/activity_login_edt_mail"
             style="@style/EditTextRounded"
             android:layout_width="match_parent"
             android:layout_height="@dimen/edt_height"
@@ -39,7 +38,7 @@
             android:hint="@string/email" />
 
         <EditText
-            android:id="@+id/activity_main_edt_password"
+            android:id="@+id/activity_login_edt_password"
             style="@style/EditTextRounded"
             android:layout_width="match_parent"
             android:layout_height="@dimen/edt_height"
@@ -49,7 +48,7 @@
             android:maxLines="1" />
 
         <Button
-            android:id="@+id/activity_main_btn_login"
+            android:id="@+id/activity_login_btn_login"
             style="@style/ClassicButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/btn_height"
@@ -65,7 +64,7 @@
             android:text="@string/or" />
 
         <FrameLayout
-            android:id="@+id/activity_main_btn_login_google"
+            android:id="@+id/activity_login_btn_login_google"
             android:clickable="true"
             android:focusable="true"
             android:elevation="2dp"
@@ -97,7 +96,7 @@
             android:text="@string/not_registered_yet" />
 
         <Button
-            android:id="@+id/activity_main_btn_register"
+            android:id="@+id/activity_login_btn_register"
             style="@style/ClassicButtonAccent"
             android:layout_width="200dp"
             android:layout_height="@dimen/btn_height"
@@ -108,12 +107,12 @@
     <RelativeLayout
         android:visibility="gone"
         android:background="@color/colorDimmer"
-        android:id="@+id/activity_main_rtl_loading"
+        android:id="@+id/activity_login_rtl_loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ProgressBar
-            android:id="@+id/activity_main_prg_loading"
+            android:id="@+id/activity_login_prg_loading"
             android:layout_centerInParent="true"
             android:layout_width="40dp"
             android:layout_height="40dp"/>
@@ -122,7 +121,7 @@
             android:layout_marginTop="5dp"
             android:textColor="@color/colorWhite"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/activity_main_prg_loading"
+            android:layout_below="@+id/activity_login_prg_loading"
             android:text="@string/loading_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

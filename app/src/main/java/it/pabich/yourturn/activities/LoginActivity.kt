@@ -1,9 +1,9 @@
 package it.pabich.yourturn.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -16,14 +16,22 @@ import com.google.firebase.auth.GoogleAuthProvider
 import it.pabich.yourturn.R
 import it.pabich.yourturn.db.DataBase
 import it.pabich.yourturn.db.Errors
+import it.pabich.yourturn.model.User
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignIn: GoogleSignInClient
 
-    private val RC_SIGN_IN = 500
+    companion object {
+        private const val RC_SIGN_IN = 500
+    }
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +48,7 @@ class LoginActivity : AppCompatActivity() {
 
         googleSignIn = GoogleSignIn.getClient(this, gso)
 
-        activity_main_btn_login_google.setOnClickListener {
+        activity_login_btn_login_google.setOnClickListener {
             startLoading()
             val signInIntent = googleSignIn.signInIntent
             startActivityForResult(signInIntent, RC_SIGN_IN)
@@ -63,55 +71,56 @@ class LoginActivity : AppCompatActivity() {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 // Google Sign In was successful, authenticate with Firebase
-                val account = task.getResult(ApiException::class.java)
-                firebaseAuthWithGoogle(account!!)
+                GlobalScope.launch {
+                    val account = task.getResult(ApiException::class.java)
+                    firebaseAuthWithGoogle(account!!)
+                }
             } catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
-                Snackbar.make(activity_main_rtl, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
+                runOnUiThread {Snackbar.make(activity_login_rtl, "Authentication Failed.", Snackbar.LENGTH_SHORT).show() }
                 updateUI(null)
             }
         }
     }
 
-    private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
+    private suspend fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    val user = auth.currentUser
+        val dbUser = auth.signInWithCredential(credential).await()
 
-                    DataBase.checkIfUserIsRegistered(user, { isRegistered ->
-                        if (isRegistered) updateUI(user)
-                        else DataBase.registerUser(user, { updateUI(user)}, {error, s -> updateUI(error, s) })
-                    }, {error, s ->  updateUI(error, s)})
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Snackbar.make(activity_main_rtl, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
-                    updateUI(null)
-                }
-            }
+        if (dbUser != null) {
+            val userStatus = DataBase.checkIfUserHasAllData(auth.currentUser)
+
+            if (userStatus == User.UserStatus.FULLY_REGISTERED)
+                updateUI(auth.currentUser)
+            else
+                DataBase.registerUser(auth.currentUser, { updateUI(auth.currentUser)}, {error, s -> updateUI(error, s) })
+        } else {
+            runOnUiThread {Snackbar.make(activity_login_rtl, "Authentication Failed.", Snackbar.LENGTH_SHORT).show() }
+            updateUI(null)
+        }
     }
 
     private fun updateUI(user: FirebaseUser?) {
-        if (user != null) {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
+        runOnUiThread {
+            if (user != null) {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
 
-        stopLoading()
+            stopLoading()
+        }
     }
 
     private fun updateUI(error: Errors, errorMessage: String?) {
-        Snackbar.make(activity_main_rtl, "Authentication Failed. ${error.name}: $errorMessage", Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(activity_login_rtl, "Authentication Failed. ${error.name}: $errorMessage", Snackbar.LENGTH_SHORT).show()
     }
 
     private fun startLoading() {
-        activity_main_rtl_loading.visibility = View.VISIBLE
+        activity_login_rtl_loading.visibility = View.VISIBLE
     }
 
     private fun stopLoading() {
-        activity_main_rtl_loading.visibility = View.GONE
+        activity_login_rtl_loading.visibility = View.GONE
     }
 }

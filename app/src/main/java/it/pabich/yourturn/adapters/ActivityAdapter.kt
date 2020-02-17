@@ -1,16 +1,12 @@
 package it.pabich.yourturn.adapters
 
-import android.content.Context
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import it.pabich.yourturn.R
-import it.pabich.yourturn.db.DataBase
 import it.pabich.yourturn.helpers.inflate
-import it.pabich.yourturn.model.MyActivity
 
-class ActivityAdapter(private val athleteScores: List<MyActivity>) : RecyclerView.Adapter<ActivityAdapter.ActivityHolder>() {
+class ActivityAdapter(private val groupActivities: List<Map<String, Any>>) : RecyclerView.Adapter<ActivityAdapter.ActivityHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActivityHolder {
         // Takes an Extension from extension/Extensions.kt
@@ -18,18 +14,18 @@ class ActivityAdapter(private val athleteScores: List<MyActivity>) : RecyclerVie
     }
 
     override fun getItemCount(): Int {
-        return athleteScores.size
+        return groupActivities.size
     }
 
     override fun onBindViewHolder(holder: ActivityHolder, position: Int) {
-        holder.bindAthleteScore(athleteScores[position], position)
+        holder.bindActivityData(groupActivities[position], position)
     }
 
     class ActivityHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-        private var myActivity: MyActivity? = null
+        private var groupActivity: Map<String, Any> = emptyMap()
 
-        fun bindAthleteScore(myActivity: MyActivity, position: Int) {
-            this.myActivity = myActivity
+        fun bindActivityData(activity: Map<String, Any>, position: Int) {
+            this.groupActivity = activity
 
             /*
             if (myActivity.lastCheck != null) {
@@ -49,7 +45,15 @@ class ActivityAdapter(private val athleteScores: List<MyActivity>) : RecyclerVie
         }
     }
 
-    private fun getStringFromResponse(nextEnchargedUserReturn: MyActivity.NextEnchargedUserReturn, nextTurnTextView: TextView, context: Context) : String {
+   /* private fun getStringFromResponse(nextEnchargedUserReturn: MyActivity.NextEnchargedUserReturn, nextTurnTextView: TextView, context: Context) : String {
+
+        when(nextEnchargedUserReturn.nextEnchargedUserReturnType) {
+            MyActivity.NextEnchargedUserReturnType.USER_FOUND -> { }
+            MyActivity.NextEnchargedUserReturnType.LIST_EMPTY -> { }
+            MyActivity.Ne
+        }
+
+
         if (nextEnchargedUserReturn.nextEnchargedUserReturnType == MyActivity.NextEnchargedUserReturnType.USER_FOUND) {
             DataBase.getUserData(nextEnchargedUserReturn.enchargedUser!!.uid, {user ->
                 nextTurnTextView.text = user.displayName
@@ -64,5 +68,6 @@ class ActivityAdapter(private val athleteScores: List<MyActivity>) : RecyclerVie
 
         if (nextEnchargedUserReturn.nextEnchargedUserReturnType == MyActivity.NextEnchargedUserReturnType.MORE_USERS_FOUND)
             return context.getString(R.string.more_than_one_user_found)
-    }
+        return  ""
+    }*/
 }

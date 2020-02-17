@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ic_launcher_background">#325D79</color>
-    <color name="colorPrimary">#325D79</color>
-    <color name="colorPrimaryDark">#2A536B</color>
-    <color name="colorAccent">#2299A9</color>
-    <color name="colorAccentDark">#1B8B9B</color>
+    <color name="colorPrimaryText">#212121</color>
+    <color name="colorSecondaryText">#757575</color>
+    <color name="colorDivider">#BDBDBD</color>
+
+    <color name="colorIcons">#FFFFFF</color>
+
+    <color name="ic_launcher_background">#03A9F4</color>
+
+    <color name="colorPrimary">#2196F3</color>
+    <color name="colorPrimaryDark">#1976D2</color>
+    <color name="colorPrimaryLight">#BBDEFB</color>
+
+    <color name="colorAccent">#2196F3</color>
+    <color name="colorAccentDark">#1976D2</color>
+    <color name="colorAccentLight">#BBDEFB</color>
+
+    <!--
+    <color name="colorAccent">#FF9800</color>
+    <color name="colorAccentDark">#f57c00</color>
+    <color name="colorAccentLight">#ffe0b2</color>-->
+
+    <!--<color name="colorAccentLight">#5C2299A9</color>
+    <color name="colorPrimaryOpaque">#AA325D79</color>
+    <color name="colorAccentDark">#1B8B9B</color>-->
     <color name="colorAccentSecondary">#3C8375</color>
     <color name="colorAccentSecondaryDark">#327467</color>
+
     <color name="colorWhite">#EEEEEE</color>
     <color name="colorWhiteDark">#D3D3D3</color>
     <color name="colorWhiteHint">#77EEEEEE</color>
@@ -32,9 +52,6 @@
     <color name="colorActivityPurpleTitle">#7F51B1</color>
     <color name="colorActivityPurple">#337F51B1</color>
 
-    <color name="colorActivityYellowTitle">#EBEB37</color>
-    <color name="colorActivityYellow">#33EBEB37</color>
-
     <color name="colorActivityOrangeTitle">#CE5C2F</color>
     <color name="colorActivityOrange">#33CE5C2F</color>
 
@@ -44,7 +61,17 @@
     <color name="colorActivityGrayTitle">#575757</color>
     <color name="colorActivityGray">#33575757</color>
 
-    <color name="colorActivityAzureTitle">#3CAF9B</color>
-    <color name="colorActivityAzure">#333CAF9B</color>
+    <array name="colors">
+        <item>#AA325D79</item>
+        <item>#771C36CA</item>
+        <item>#887F51B1</item>
+        <item>#77D538EB</item>
+        <item>#77CA3737</item>
+        <item>#88CE5C2F</item>
+        <item>#77D39319</item>
+        <item>#773C8375</item>
+        <item>#774EAA5B</item>
+        <item>#AA575757</item>
+    </array>
 
 </resources>

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:background="@color/fui_transparent"
+    android:layout_gravity="center_vertical"
+    android:gravity="center_vertical"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp">
+
+    <View
+        android:id="@+id/li_group_selection_color"
+        android:background="@drawable/classic_button"
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_width="25dp"
+        android:layout_height="25dp"/>
+
+    <TextView
+        android:id="@+id/li_group_selection_name"
+        android:layout_marginStart="10dp"
+        android:text="@string/sample_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
+
+
+
+
+    <!--
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_margin="8dp"
+        android:background="@drawable/li_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:scaleType="centerCrop"
+            android:src="@drawable/kitchen_sample"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"/>
+
+
+        <ImageView
+            android:id="@+id/li_my_activity_details_arrow"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:foregroundGravity="center_vertical"
+            android:gravity="center_vertical"
+            android:src="@drawable/ic_right_indicator"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@drawable/li_background"
+        android:clipToPadding="false"
+        android:elevation="5dp"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="16dp"
+        tools:ignore="RtlSymmetry">
+
+        <RelativeLayout
+            android:id="@+id/li_my_activity_rtl_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/li_my_activity_image"
+                android:layout_width="70dp"
+                android:layout_height="60dp"
+                android:contentDescription="@string/image_of_last_activity"
+                android:scaleType="matrix"
+                android:src="@drawable/ic_no_last_check" />
+
+            <ImageButton
+                android:id="@+id/li_my_activity_add_button"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@drawable/classic_button_not_round"
+                android:contentDescription="@string/camera_icon"
+                android:src="@drawable/ic_camera"
+                b
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="@id/li_my_activity_image"
+                app:layout_constraintTop_toBottomOf="@id/li_my_activity_image" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/li_my_activity_csl_details"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/li_my_activity_rtl_image"
+            app:layout_constraintRight_toLeftOf="@id/li_my_activity_details_arrow"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/li_my_activity_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lavastoviglie"
+                android:textColor="@color/colorBlackSemiTransparent"
+                android:textSize="20sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/li_my_activity_next_turn_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="5dp"
+                android:text="@string/next_turn"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/li_my_activity_title" />
+
+            <TextView
+                android:id="@+id/li_my_activity_next_turn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Marcin"
+                app:layout_constraintLeft_toRightOf="@id/li_my_activity_next_turn_title"
+                app:layout_constraintTop_toBottomOf="@id/li_my_activity_title" />
+
+            <TextView
+                android:id="@+id/li_my_activity_last_done_by_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/last_done_by"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@id/li_my_activity_last_done_by"
+                app:layout_constraintLeft_toLeftOf="parent" />
+
+            <TextView
+                android:id="@+id/li_my_activity_last_done_by"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:text="Marta"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent" />
+
+            <TextView
+                android:id="@+id/li_my_activity_last_done_by_date_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/last_done_by_date"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@id/li_my_activity_last_done_by_date"
+                app:layout_constraintLeft_toRightOf="@id/li_my_activity_last_done_by" />
+
+            <TextView
+                android:id="@+id/li_my_activity_last_done_by_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="17/01/2019 19:55"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/li_my_activity_last_done_by_date_title" />
+
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/li_my_activity_details_arrow"
+            android:layout_width="50dp"
+            android:layout_height="0dp"
+            android:foregroundGravity="center_vertical"
+            android:gravity="center_vertical"
+            android:src="@drawable/ic_right_indicator"
+            app:layout_constraintBottom_toBottomOf="@id/li_my_activity_csl_details"
+            app:layout_constraintLeft_toRightOf="@id/li_my_activity_csl_details"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/li_my_activity_csl_details" />
+
+    </RelativeLayout>-->

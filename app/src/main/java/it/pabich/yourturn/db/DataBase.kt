@@ -2,76 +2,182 @@ package it.pabich.yourturn.db
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.otaliastudios.firestore.FirestoreList
-import com.otaliastudios.firestore.toFirestoreDocument
-import it.pabich.yourturn.db.dbmodel.DBActivity
-import it.pabich.yourturn.db.dbmodel.DBGroup
+import it.pabich.yourturn.model.Group
 import it.pabich.yourturn.model.MyActivity
 import it.pabich.yourturn.model.User
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import kotlin.concurrent.thread
 
 class DataBase private constructor() {
 
     companion object {
-        fun getActivitiesOfGroup(groupID: String, onResult: (FirestoreList<String>) -> Unit, onError: (Errors, String?) -> Unit) {
 
-            thread {
+        suspend fun getActivitiesOfGroup(groupID: String): List<Map<String, Any>>? {
+            val group = FirebaseFirestore.getInstance()
+                .collection(DBNames.Collections.GROUPS.path).document(groupID)
+                .get().await().toObject(Group::class.java)
+
+            return if (group != null) {
+                if (group.members.any { groupMember -> groupMember.containsValue(FirebaseAuth.getInstance().currentUser!!.uid) }) {
+                    group.activities
+                } else {
+                    null
+                }
+            } else {
+                null
+            }
+        }
+
+        suspend fun getUserData(userID: String): User? {
+            return FirebaseFirestore.getInstance()
+                .collection(DBNames.Collections.USERS.path).document(userID)
+                .get().await().toObject(User::class.java)
+        }
+
+
+
+        suspend fun checkIfUserHasAllData(user: FirebaseUser?) : User.UserStatus {
+            return when(val userStatus = checkConnection()) {
+                User.UserStatus.AUTHENTICATED -> {
+                    val dbUser = FirebaseFirestore.getInstance()
+                        .collection(DBNames.Collections.USERS.path).document(user!!.uid)
+                        .get().await().toObject(User::class.java)
+
+                    if (dbUser != null)
+                        User.UserStatus.FULLY_REGISTERED
+                    else
+                        userStatus
+                }
+                else -> userStatus
+            }
+        }
+
+
+        fun checkConnection() : User.UserStatus {
+            return if (FirebaseAuth.getInstance().currentUser != null) {
+                if (FirebaseAuth.getInstance().currentUser!!.isEmailVerified) {
+                    User.UserStatus.AUTHENTICATED
+                } else {
+                    User.UserStatus.MAIL_NOT_VERIFIED
+                }
+            } else {
+                User.UserStatus.NOT_LOGGED_IN
+            }
+        }
+
+        fun getActivitiesOfGroup(groupID: String, onResult: (List<Map<String, Any>>) -> Unit, onError: (Errors, String?) -> Unit) {
+            GlobalScope.launch {
                 if (checkConnection(onError)) {
-                    // Chache Firebase user and DB
-                    val user = FirebaseAuth.getInstance().currentUser
-                    val db = FirebaseFirestore.getInstance()
+                    try {
+                        val group = FirebaseFirestore.getInstance()
+                            .collection(DBNames.Collections.GROUPS.path).document(groupID)
+                            .get().await()
+                            .toObject(Group::class.java)
 
-                    // Check if user get part of this specific requested group
-                    db.collection(DBCollections.GROUPS.path).document(groupID).get()
-                        .addOnSuccessListener {
-                            if (it.exists()) {
-                                // Check memberlist
-                                val dbGroup: DBGroup = it.toFirestoreDocument()
-
-                                if (dbGroup.members.contains(user!!.uid)) {
-                                    onResult(dbGroup.activities)
-                                } else {
-                                    // I'm not in this group :(
-                                    onError(Errors.USER_NOT_AUTHORIZED, null)
-                                }
+                        if (group != null) {
+                            if (group.members.any { groupMember ->
+                                    groupMember.containsValue(
+                                        FirebaseAuth.getInstance().currentUser!!.uid
+                                    )
+                                }) {
+                                onResult(group.activities)
                             } else {
-                                onError(Errors.NOT_FOUND, null)
+                                // Not in this group
+                                onError(Errors.USER_NOT_AUTHORIZED, "User is not in this group")
                             }
                         }
-                        .addOnFailureListener {
-                            // Failed to fetch data
-                            onError(Errors.GENERIC_ERROR, it.message)
-                        }
+                    } catch (exception: Exception) {
+                        onError(Errors.GENERIC_ERROR, exception.message)
+                    }
                 }
             }
         }
 
-        fun getActivityDetailsFromID(activityID: String, onResult: (DBActivity) -> Unit, onError: (Errors, String?) -> Unit) {
-            thread {
+        fun getActivityDetailsFromID(activityID: String, onResult: (MyActivity) -> Unit, onError: (Errors, String?) -> Unit) {
+            GlobalScope.launch {
                 if (checkConnection(onError)) {
-                    // Chache Firebase user and DB
-                    FirebaseFirestore.getInstance().collection(DBCollections.ACTIVITIES.path).document(activityID).get()
-                        .addOnSuccessListener {
-                            if (it.exists()) {
-                                onResult(it.toFirestoreDocument())
-                            } else {
-                                onError(Errors.NOT_FOUND, null)
-                            }
+                    try {
+                        val activity = FirebaseFirestore.getInstance()
+                            .collection(DBNames.Collections.ACTIVITIES.path).document(activityID)
+                            .get().await()
+                            .toObject(MyActivity::class.java)
+
+                        if (activity != null) {
+                            onResult(activity)
+                        } else {
+                            onError(Errors.NOT_FOUND, "Activity not found")
                         }
-                        .addOnFailureListener {
-                            onError(Errors.GENERIC_ERROR, it.message)
-                        }
+                    }
+                    catch (exception: Exception) {
+                        onError(Errors.GENERIC_ERROR, exception.message)
+                    }
+
                 }
+                // Connection check finish
             }
         }
+
+
 
         fun registerUser(user: FirebaseUser?, onSuccess: () -> Unit, onError: (Errors, String?) -> Unit) {
             thread {
                 if (checkConnection(onError)) {
-                    val dbUser = User(user!!.email!!, user.displayName!!)
+                    val dbUser = User()
+                    dbUser.displayName = user!!.displayName!!
+                    dbUser.mail = user.email!!
 
-                    FirebaseFirestore.getInstance().collection(DBCollections.USERS.path).document(user.uid).set(dbUser)
+                    FirebaseFirestore.getInstance().collection(DBNames.Collections.USERS.path).document(user.uid).set(dbUser)
+                        .addOnSuccessListener { onSuccess() }
+                        .addOnFailureListener { onError(Errors.GENERIC_ERROR, it.message) }
+                }
+            }
+        }
+
+        fun createGroup(group: Group, onSuccess: (DocumentReference) -> Unit, onError: (Errors, String?) -> Unit) {
+            GlobalScope.launch {
+                if (checkConnection(onError)) {
+                    FirebaseFirestore.getInstance().collection(DBNames.Collections.GROUPS.path).add(group)
+                        .addOnSuccessListener { documentReference ->  onSuccess(documentReference) }
+                        .addOnFailureListener { onError(Errors.GENERIC_ERROR, it.message) }
+                }
+            }
+        }
+
+        fun deleteGroup(groupDocRef: String, onSuccess: () -> Unit, onError: (Errors, String?) -> Unit) {
+            GlobalScope.launch {
+                if (checkConnection(onError)) {
+                    FirebaseFirestore.getInstance().collection(DBNames.Collections.GROUPS.path).document(groupDocRef).delete()
+                        .addOnSuccessListener { onSuccess() }
+                        .addOnFailureListener { onError(Errors.GENERIC_ERROR, it.message) }
+                }
+            }
+        }
+
+        fun addGroupToUser(groupRef: Map<String, Any>, userRef: String, onSuccess: () -> Unit, onError: (Errors, String?) -> Unit) {
+            GlobalScope.launch {
+                if (checkConnection(onError)) {
+                    FirebaseFirestore.getInstance()
+                        .collection(DBNames.Collections.USERS.path)
+                        .document(userRef)
+                        .update(DBNames.UserData.MEMBER_OF.path, FieldValue.arrayUnion(groupRef))
+                        .addOnSuccessListener { onSuccess() }
+                        .addOnFailureListener { onError(Errors.GENERIC_ERROR, it.message) }
+                }
+            }
+        }
+
+        fun setUserHomePref(userRef: String, newProperties: Map<String, Any>, onSuccess: () -> Unit, onError: (Errors, String?) -> Unit) {
+            GlobalScope.launch {
+                if (checkConnection(onError)) {
+                    FirebaseFirestore.getInstance()
+                        .collection(DBNames.Collections.USERS.path)
+                        .document(userRef)
+                        .update(DBNames.UserData.HOME_PREFS.path, newProperties)
                         .addOnSuccessListener { onSuccess() }
                         .addOnFailureListener { onError(Errors.GENERIC_ERROR, it.message) }
                 }
@@ -82,8 +188,8 @@ class DataBase private constructor() {
             thread {
                 if (checkConnection(onError)) {
                     if (FirebaseAuth.getInstance().currentUser == user) {
-                        FirebaseFirestore.getInstance().collection((DBCollections.USERS.path)).document(user!!.uid).get()
-                            .addOnSuccessListener { onResult(it.exists()) }
+                        FirebaseFirestore.getInstance().collection((DBNames.Collections.USERS.path)).document(user!!.uid).get()
+                            .addOnSuccessListener { onResult(it?.exists() ?: false) }
                             .addOnFailureListener { onError(Errors.NOT_FOUND, null) }
                     }
                     else {
@@ -96,13 +202,17 @@ class DataBase private constructor() {
         fun getUserData(userID: String, onResult: (User) -> Unit, onError: (Errors, String?) -> Unit) {
             thread {
                 if (checkConnection(onError)) {
-                    FirebaseFirestore.getInstance().collection(DBCollections.USERS.path).document(userID).get()
+                    FirebaseFirestore.getInstance().collection(DBNames.Collections.USERS.path).document(userID).get()
                         .addOnSuccessListener {
-                            if (it.exists()) {
-                                onResult(User("Utente@esempio", "Utente Esempio"))
-                            }
-                            else {
-                                onError(Errors.NOT_FOUND, null)
+                            try {
+                                val user = it.toObject(User::class.java)
+                                if (user != null) {
+                                    onResult(user)
+                                } else {
+                                    onError(Errors.NOT_FOUND, null)
+                                }
+                            } catch (exception: Exception) {
+                                onError(Errors.GENERIC_ERROR, exception.message)
                             }
                         }
                         .addOnFailureListener {

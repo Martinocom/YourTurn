@@ -1,19 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/text_gallery"
+    <RelativeLayout
+        android:visibility="gone"
+        android:background="@color/colorDimmer"
+        android:id="@+id/fragment_groups_rtl_loading"
         android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/fragment_groups_prg_loading"
+            android:layout_centerInParent="true"
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
+
+        <TextView
+            android:layout_marginTop="5dp"
+            android:textColor="@color/colorWhite"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/fragment_groups_prg_loading"
+            android:text="@string/loading_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:visibility="invisible"
+        android:id="@+id/fragment_groups_rcv_groups"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/margin_left_right" />
+
+    <!-- No Activities -->
+    <LinearLayout
+        android:visibility="visible"
+        android:id="@+id/fragment_groups_lnl_no_groups"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_margin="8dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="24dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textSize="20sp"
+            android:layout_marginBottom="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_groups_avaiable"/>
+
+        <!--
+        <Button
+            android:id="@+id/fragment_groups_btn_select_group"
+            style="@style/ClassicButton"
+            android:width="220dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:drawableStart="@drawable/ic_group_check"
+            android:drawableTint="@color/ms_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/select_a_group"/>
+
+        <TextView
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/or"/>-->
+
+        <!--
+        <Button
+            android:id="@+id/fragment_groups_btn_create_group"
+            android:width="220dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:drawableTint="@color/ms_white"
+            android:drawableStart="@drawable/ic_group_add"
+            style="@style/ClassicButtonAccent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create_a_new_one"/>
+
+        <TextView
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/or"/>
+
+        <Button
+            android:drawableTint="@color/ms_white"
+            android:drawableStart="@drawable/ic_group_merge"
+            android:id="@+id/fragment_groups_btn_join_group"
+            android:width="220dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            style="@style/ClassicButtonRed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/join_group"/>-->
+
+        <TextView
+            android:textSize="16sp"
+            android:id="@+id/fragment_groups_txv_error_title"
+            android:layout_marginTop="00dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/there_was_an_error"/>
+
+        <TextView
+            android:id="@+id/fragment_groups_txv_error_text"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:visibility="gone"
+        android:id="@+id/fragment_groups_fab_add"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="@dimen/fab_margin"
+        app:fab_addButtonColorNormal="@color/colorPrimary"
+        app:fab_addButtonColorPressed="@color/colorPrimaryDark"
+        app:fab_addButtonPlusIconColor="@color/colorWhite"
+        app:fab_addButtonSize="normal"
+        app:fab_labelStyle="@style/menu_labels_style"
+        app:fab_labelsPosition="left">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/colorAccentSecondary"
+            app:fab_title="@string/change_group"
+            app:fab_size="mini"
+            app:fab_icon="@drawable/ic_refresh"
+            app:fab_colorPressed="@color/colorAccentSecondaryDark"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/colorAccent"
+            app:fab_size="mini"
+            app:fab_title="@string/add_new_activity"
+            app:fab_colorPressed="@color/colorAccentDark"/>
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+</RelativeLayout>

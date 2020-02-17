@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/colorPrimary"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.createGroup.SecondStep">
+
+
+    <it.pabich.yourturn.widgets.ActivitySample
+        android:alpha="0.8"
+        android:id="@+id/fragment_second_activity_sample"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:nextUser="@string/sample_user"
+        app:previousUser="@string/sample_user_2"
+        app:previousUserDate="@string/sample_date"
+        app:title="@string/sample_activity" />
+
+    <TextView
+        android:layout_marginTop="16dp"
+        android:textColor="@color/colorWhite"
+        android:textSize="25sp"
+        android:text="@string/select_group_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:textColor="@color/colorWhite"
+        android:id="@+id/fragment_second_step_txv_color_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/color_infos"
+        android:textAlignment="center" />
+
+    <HorizontalScrollView
+        android:scrollbarTrackHorizontal="@color/colorAccentLight"
+        android:scrollbarAlwaysDrawHorizontalTrack="true"
+        android:fadeScrollbars="false"
+        android:scrollbarThumbHorizontal="@color/colorAccentDark"
+        android:foregroundGravity="center"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="30dp"
+        android:id="@+id/fragment_second_flt_colors"
+        android:layout_width="match_parent"
+        android:layout_height="90dp">
+
+        <LinearLayout
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:id="@+id/fragment_second_color_container"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </HorizontalScrollView>
+
+
+
+    <ImageButton
+        android:id="@+id/fragment_second_step_btn_next"
+        style="@style/ClassicButton"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:contentDescription="@string/next"
+        android:src="@drawable/ic_arrow_simple_right" />
+
+
+</LinearLayout>

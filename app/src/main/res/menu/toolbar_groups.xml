@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:id="@+id/toolbar_groups_add_group"
+        android:icon="@drawable/ic_group_add"
+        android:title="@string/add_group"
+        tools:ignore="AlwaysShowAction" />
+
+    <item
+        app:showAsAction="always"
+        android:orderInCategory="200"
+        android:id="@+id/toolbar_groups_join_group"
+        android:icon="@drawable/ic_group_merge"
+        android:title="@string/join_group" />
+</menu>

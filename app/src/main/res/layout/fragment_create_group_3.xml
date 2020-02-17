@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".fragments.createGroup.ThirdStep">
+
+
+    <TextView
+        android:id="@+id/fragment_third_step_group_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sample_user"
+        android:textColor="@color/colorWhite"
+        android:textSize="25sp" />
+
+    <it.pabich.yourturn.widgets.ActivitySample
+        android:alpha="0.8"
+        android:id="@+id/fragment_third_activity_sample"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:isArrowVisible="false"
+        app:nextUser="@string/sample_user"
+        app:previousUser="@string/sample_user_2"
+        app:previousUserDate="@string/sample_date"
+        app:title="@string/sample_activity" />
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/group_recap_infos"
+        android:textAlignment="center"
+        android:textColor="@color/colorWhite" />
+
+
+    <FrameLayout
+        android:id="@+id/fragment_third_step_btn_create"
+        android:clickable="true"
+        android:focusable="true"
+        android:elevation="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn_height"
+        android:layout_marginTop="35dp"
+        android:background="@drawable/classic_button" >
+
+        <Button
+            android:id="@+id/fragment_third_step_btn_create_content"
+            android:clickable="false"
+            android:focusable="false"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@null"
+            android:drawablePadding="15dp"
+            android:gravity="center"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:textStyle="bold"
+            android:text="@string/create_group"
+            android:textColor="@android:color/white" />
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/fragment_third_step_lnl_loading"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ProgressBar
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:indeterminateTintMode="src_atop"
+                android:indeterminateTint="@color/colorDimmer"
+                android:layout_width="16dp"
+                android:layout_marginEnd="10dp"
+                android:layout_height="16dp"/>
+
+            <TextView
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:textColor="@color/colorDimmer"
+                android:text="@string/creating_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </FrameLayout>
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:id="@+id/fragment_third_step_txv_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="@color/colorWarningLight" />
+
+</LinearLayout>
